@@ -14,8 +14,20 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-register")
 
 # Set up gtest. This must be set up before any subdirectories are
 # added which will use gtest.
-add_subdirectory(src/ext/googletest)
-find_library(gtest REQUIRED)
+add_subdirectory(src/ext/googletest/googletest)
+#find_library(gtest REQUIRED)
+# find_libary borks.  help it a bit
+# built in: find_package borks too
+set(GTEST_DIR "src/ext/googletest/googletest")
+
+find_library(GTEST_LIBRARY
+                NAMES gtest
+                      libgtest
+                      libgtest.a
+                PATHS "${GTEST_DIR}"
+                PATH_SUFFIXES lib)
+
+
 include_directories(${GTEST_INCLUDE_DIRS})
 link_directories(${GTEST_LIBS_DIR})
 add_definitions("-fPIC")
